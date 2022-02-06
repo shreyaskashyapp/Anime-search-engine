@@ -1,23 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react"
+import Header from "./Components/Header"
+import Card from "./Components/Card"
+import "./Components/styles.css"
 
 function App() {
+  const [data, setData] = React.useState([])
+  const [query, setQuery] = React.useState("")
+  let cards
+
+  React.useEffect(() => {
+    fetch(`https://api.jikan.moe/v3/search/anime?q=${query}&page=1`)
+      .then(res => res.json())
+      .then(data => setData(data.results))
+  }, [query]);
+  console.log(data)
+  
+
+  const handleChange = (event) => {
+    setQuery(event.target.value)
+
+  }
+if(data)
+{
+   cards=data.map(items=> <Card url={items.image_url} title={items.title} />)
+  
+}
+  
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <input onChange={handleChange} type="text" />
+      <div className="card-container">
+      {cards}
+      </div>
+      
     </div>
   );
 }

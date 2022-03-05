@@ -17,6 +17,7 @@ function App() {
   
 
   const handleChange = (event) => {
+    event.target.value==="hentai"&&alert("VIRGIN")
     setQuery(event.target.value)
 
   }
